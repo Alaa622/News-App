@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">News App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Search</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="favorites">Favorites</string>
+    <string name="news_headlines">News Headlines</string>
+    <string name="favorite_news">Favorite News</string>
+</resources>
