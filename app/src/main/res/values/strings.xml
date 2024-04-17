@@ -7,4 +7,5 @@
     <string name="favorites">Favorites</string>
     <string name="news_headlines">News Headlines</string>
     <string name="favorite_news">Favorite News</string>
+    <string name="no_favorite_news">No Favorite News</string>
 </resources>

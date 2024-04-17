@@ -3,19 +3,25 @@ package com.example.newsapp.adapter
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newsapp.databinding.NewsItemBinding
 import com.example.newsapp.model.FavoriteArticle
 
-class FavoriteAdapter(private val itemClickListener: (FavoriteArticle)->Unit
+class FavoriteAdapter(
+    private val itemClickListener: (FavoriteArticle) -> Unit,
+    private val itemLongClickListener: (FavoriteArticle) -> Unit
 ) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
     private var favoriteArticles: List<FavoriteArticle> = listOf()
 
     inner class FavoriteViewHolder(private val binding: NewsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(favoriteArticle: FavoriteArticle,itemClickListener: (FavoriteArticle) -> Unit) {
+        fun bind(
+            favoriteArticle: FavoriteArticle, itemClickListener: (FavoriteArticle) -> Unit,
+            itemLongClickListener: (FavoriteArticle) -> Unit
+        ) {
             binding.apply {
                 Glide.with(root.context).load(favoriteArticle.urlToImage).into(articleImage)
                 articleTitleTv.text = favoriteArticle.title
@@ -23,9 +29,15 @@ class FavoriteAdapter(private val itemClickListener: (FavoriteArticle)->Unit
                 root.setOnClickListener(View.OnClickListener {
                     itemClickListener(favoriteArticle)
                 })
-            }
+                root.setOnLongClickListener(OnLongClickListener {
+                    itemLongClickListener(favoriteArticle)
+                    return@OnLongClickListener true
+
+                })
+        }
 
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
@@ -42,10 +54,11 @@ class FavoriteAdapter(private val itemClickListener: (FavoriteArticle)->Unit
     override fun getItemCount(): Int = favoriteArticles.size
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
-        holder.bind(favoriteArticles[position],itemClickListener)
+        holder.bind(favoriteArticles[position], itemClickListener,itemLongClickListener)
     }
-    fun setFavArticles(favoriteArticles:List<FavoriteArticle>){
-        this.favoriteArticles=favoriteArticles
+
+    fun setFavArticles(favoriteArticles: List<FavoriteArticle>) {
+        this.favoriteArticles = favoriteArticles
     }
 
 }

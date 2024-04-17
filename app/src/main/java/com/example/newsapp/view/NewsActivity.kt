@@ -32,18 +32,22 @@ class NewsActivity : AppCompatActivity() {
         newsViewModel =
             ViewModelProvider(this, NewsViewModelFactory(application))[NewsViewModel::class.java]
 
+        setUpRecyclerView()
+        newsViewModel.getArticles()
+
+    }
+
+    private fun setUpRecyclerView() {
         newsViewModel.articlesLiveData.observe(this, Observer {
             articleAdapter.setArticles(it)
             articleAdapter.notifyDataSetChanged()
 
         })
-        articleAdapter= ArticleAdapter(){article -> clickedItem(article) }
+        articleAdapter = ArticleAdapter() { article -> clickedItem(article) }
         binding.articlesRv.apply {
             layoutManager = LinearLayoutManager(baseContext)
             adapter = articleAdapter
         }
-        newsViewModel.getArticles()
-
     }
 
     override fun onResume() {
@@ -76,24 +80,24 @@ class NewsActivity : AppCompatActivity() {
             setTitle("No Internet")
             setMessage("Please, Check your internet connection Or Go to your favorites news")
             setPositiveButton("Favorites") { _, _ -> showFavorites() }
-            setNegativeButton("Reload"){_,_->retryLoading()}
-            setNeutralButton("Exit"){_,_->finish()}
+            setNegativeButton("Reload") { _, _ -> retryLoading() }
+            setNeutralButton("Exit") { _, _ -> finish() }
             setCancelable(false)
         }.create().show()
     }
 
-    private fun retryLoading(){
-        val intent=getIntent()
+    private fun retryLoading() {
+        val intent = getIntent()
         finish()
         startActivity(intent)
     }
-    
-    private fun clickedItem(article:Article){
+
+    private fun clickedItem(article: Article) {
         val intent = Intent(baseContext, NewsContentActivity::class.java)
-                intent.putExtra("title", article.title)
-                intent.putExtra("content", article.content)
-                intent.putExtra("imageUrl", article.urlToImage)
-                startActivity(intent)
+        intent.putExtra("title", article.title)
+        intent.putExtra("content", article.content)
+        intent.putExtra("imageUrl", article.urlToImage)
+        startActivity(intent)
     }
 
 
