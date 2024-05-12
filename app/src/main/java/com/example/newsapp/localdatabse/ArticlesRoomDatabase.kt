@@ -8,7 +8,6 @@ import androidx.room.TypeConverters
 import com.example.newsapp.model.FavoriteArticle
 
 @Database(entities = [FavoriteArticle::class], exportSchema = false,version = 1)
-@TypeConverters(Converter::class)
 abstract class ArticlesRoomDatabase:RoomDatabase() {
 
     abstract fun favArticleDao():FavArticleDAO
